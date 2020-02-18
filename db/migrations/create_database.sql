@@ -1,1 +1,1 @@
-CREATE TABLE lettuce_eat
+CREATE DATABASE lettuce_eat;
