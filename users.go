@@ -6,6 +6,7 @@ import (
   "net/http"
   "github.com/gin-gonic/gin"
   _"github.com/lib/pq"
+  "strings"
 
 )
 
@@ -48,6 +49,16 @@ c.Redirect(
   303,
   "/",
 )
+}
+
+func showLogInPage(c *gin.Context) {
+	c.HTML(
+		http.StatusOK,
+		"login.html",
+		gin.H{
+			"title": "Log In",
+		},
+	)
 }
 
 func logIn(c *gin.Context) {
