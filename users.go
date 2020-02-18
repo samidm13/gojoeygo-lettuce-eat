@@ -51,6 +51,7 @@ c.Redirect(
 )
 }
 
+
 func showLogInPage(c *gin.Context) {
 	c.HTML(
 		http.StatusOK,
