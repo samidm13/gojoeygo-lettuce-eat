@@ -19,6 +19,9 @@ func setupRouter() *gin.Engine {
 	router.GET("/", showIndexPage)
 	router.GET("/signup", showSignUpPage)
 	router.POST("/signup", signUp)
+	router.GET("/login", showLogInPage)
+	router.POST("/login", logIn)
+  
 	return router
 }
 
