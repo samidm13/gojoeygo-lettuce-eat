@@ -1,5 +1,6 @@
 package main
 
+<<<<<<< HEAD
 import  (
   "database/sql"
 	"fmt"
@@ -15,58 +16,30 @@ import  (
 func registerNewUser(firstname string, lastname string, mail string, pass string) {
 
   sqlStatement := `
+=======
+import (
+	_ "github.com/lib/pq"
+)
+
+var (
+	userCount int
+	user_id   int
+	email     string
+	password  string
+)
+
+func userSignUp(firstname string, lastname string, mail string, pass string) int {
+	sqlStatement := `
+>>>>>>> 7968f279252dfa3df3cc1da07471be6d7e8ab139
   INSERT INTO users (first_name, last_name, email, password)
-  VALUES ($1, $2, $3, $4)`
-
-  _, err := DB.Exec(sqlStatement, firstname, lastname, mail, pass)
-
-  if err != nil {
-		panic(err)
-  }
-}
-
-
-func showLogInPage(c *gin.Context) {
-	c.HTML(
-		http.StatusOK,
-		"login.html",
-		gin.H{
-			"title": "Log In",
-		},
-	)
-}
-
-func logIn(c *gin.Context) {
-	remail := strings.TrimSpace(c.PostForm("email"))
-	rpassword := strings.TrimSpace(c.PostForm("password"))
-	psqlInfo := fmt.Sprintf("host=%s port=%d  "+
-		" dbname=%s sslmode=disable",
-		host, port, dbname)
-	db, err := sql.Open("postgres", psqlInfo)
+  VALUES ($1, $2, $3, $4) RETURNING user_id`
+	err := DB.QueryRow(sqlStatement, firstname, lastname, mail, pass).Scan(&user_id)
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
-
-	var (
-		userCount int
-		user_id   int
-		email     string
-		password  string
-	)
-	db.QueryRow("SELECT COUNT(user_id) AS userCount, user_id, email, password FROM users WHERE email=$1 GROUP BY user_id", remail).Scan(&userCount, &user_id, &email, &password)
-	if password == rpassword {
-		// token := strconv.FormatInt(rand.Int63(), 16)
-		// c.SetCookie("token", token, 3600, "", "", false, true)
-		// c.Set("is_logged_in", true)
-		c.Redirect(
-			303,
-			"/",
-		)
-	} else {
-		c.Redirect(
-			303,
-			"/signup",
-		)
-	}
+	return user_id
+}
+func userLogIn(remail string, rpassword string) (int, string) {
+	DB.QueryRow("SELECT COUNT(user_id) AS userCount, user_id, email, password FROM users WHERE email=$1 GROUP BY user_id", remail).Scan(&userCount, &user_id, &email, &password)
+	return user_id, password
 }
