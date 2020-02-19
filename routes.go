@@ -3,23 +3,14 @@ package main
 import "github.com/gin-gonic/gin"
 
 func setupRouter() *gin.Engine {
-
 	router := gin.Default()
-
 	router.LoadHTMLGlob("templates/*")
-
-	router.GET("/", showIndexPage)
-
-  router.GET("/signup", showSignUpPage)
-
-	router.POST("/signup", signUp)
-
-	router.GET("/login", showLogInPage)
-
-	router.POST("/login", logIn)
-
-	router.GET("/logout", logOut)
-
-
+	router.Use(setUserStatus())
+	router.GET("/", ensureLoggedIn(), showIndexPage)
+	router.GET("/signup", ensureNotLoggedIn(), showSignUpPage)
+	router.POST("/signup", ensureNotLoggedIn(), signUp)
+	router.GET("/login", ensureNotLoggedIn(), showLogInPage)
+	router.POST("/login", ensureNotLoggedIn(), logIn)
+	router.GET("/logout", ensureLoggedIn(), logOut)
 	return router
 }
