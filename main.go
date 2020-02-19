@@ -1,10 +1,10 @@
 package main
 
 import (
-	"net/http"
-	"os"
+	"database/sql"
+	"fmt"
 
-	"github.com/gin-gonic/gin"
+	_"github.com/lib/pq"
 )
 
 const (
@@ -13,31 +13,24 @@ const (
 	dbname = "lettuce_eat"
 )
 
-func setupRouter() *gin.Engine {
-	router := gin.Default()
-	router.LoadHTMLGlob("templates/*")
-	router.GET("/", showIndexPage)
-	router.GET("/signup", showSignUpPage)
-	router.POST("/signup", signUp)
-	return router
-}
+var DB *sql.DB
+var err error
+
 
 func main() {
-	port := os.Getenv("PORT")
 
-	if port == "" {
-		port = "8080"
-	}
+	psqlInfo := fmt.Sprintf("host=%s port=%d "+
+    " dbname=%s sslmode=disable",
+    host, port, dbname)
+
+  DB, err = sql.Open("postgres", psqlInfo)
+
+  if err != nil {
+    panic(err)
+  }
+  defer DB.Close()
+
 	router := setupRouter()
-	router.Run(":" + port)
-}
 
-func showIndexPage(c *gin.Context) {
-	c.HTML(
-		http.StatusOK,
-		"index.html",
-		gin.H{
-			"title": "Home Page",
-		},
-	)
+	router.Run()
 }
