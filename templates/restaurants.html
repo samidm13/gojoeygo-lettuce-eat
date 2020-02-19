@@ -1,0 +1,15 @@
+{{ template "header.html" .}}
+{{ range .payload}}
+<form action="/orders" method="POST" >
+  <label class="container">{{.RestName}}
+    <input type="radio" value="{{.RestID}}" name="RestID">
+    <span class="checkmark"></span>
+    <br>
+    {{end}}
+    <br>
+    <input name="token" type ="HIDDEN" value="{{.token}}">
+    <input type="submit" value="Create Order">
+
+  </label>
+  </form>
+  <br>

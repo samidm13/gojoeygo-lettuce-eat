@@ -39,3 +39,17 @@ func signUp(c *gin.Context) {
     "/",
   )
 }
+
+func showRestaurants(c *gin.Context) {
+  restaurants := getAllRestaurants()
+  token := rand.Intn(100000)
+  c.HTML(
+    http.StatusOK,
+    "restaurants.html",
+    gin.H{
+      "title": "Restaurant page",
+      "payload": restaurants,
+      "token": token,
+    },
+  )
+}

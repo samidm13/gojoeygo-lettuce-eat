@@ -1,6 +1,16 @@
 package main
 
-import   _"github.com/lib/pq"
+import  (
+  "database/sql"
+	"fmt"
+	"net/http"
+	"strings"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
+)
+
+  
 
 func registerNewUser(firstname string, lastname string, mail string, pass string) {
 

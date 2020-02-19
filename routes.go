@@ -11,8 +11,13 @@ func setupRouter() *gin.Engine {
 	router.GET("/", showIndexPage)
 
   router.GET("/signup", showSignUpPage)
-  
+
 	router.POST("/signup", signUp)
+
+	router.GET("/restaurants", showRestaurants)
+
+	router.POST("/orders", orderSetUp)
+
 
 	return router
 }
