@@ -1,9 +1,6 @@
 package main
 
 import (
-  "net/http"
-  "math/rand"
-  "github.com/gin-gonic/gin"
   _"github.com/lib/pq"
 )
 type restaurant struct {

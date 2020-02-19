@@ -18,6 +18,8 @@ func setupRouter() *gin.Engine {
 
 	router.POST("/orders", orderSetUp)
 
+	router.GET("/orders", showOrderPage)
+
 
 	return router
 }
