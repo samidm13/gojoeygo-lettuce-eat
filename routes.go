@@ -18,6 +18,8 @@ func setupRouter() *gin.Engine {
 
 	router.POST("/login", logIn)
 
+	router.GET("/logout", logOut)
+
 
 	return router
 }

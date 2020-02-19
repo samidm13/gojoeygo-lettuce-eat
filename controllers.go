@@ -5,6 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"strings"
+	"strconv"
+	"math/rand"
 )
 
 func showIndexPage(c *gin.Context) {
@@ -35,6 +37,10 @@ func signUp(c *gin.Context) {
 
   registerNewUser(firstname, lastname, mail, pass)
 
+	token := strconv.FormatInt(rand.Int63(), 16)
+	c.SetCookie("token", token, 3600, "", "", false, true)
+	c.Set("is_logged_in", true)
+
   c.Redirect(
     303,
     "/",
@@ -58,6 +64,11 @@ func logIn(c *gin.Context) {
 	varify := userLogIn(remail, rpassword)
 
 	if varify == true {
+
+		token := strconv.FormatInt(rand.Int63(), 16)
+		c.SetCookie("token", token, 3600, "", "", false, true)
+		c.Set("is_logged_in", true)
+
 	c.Redirect(
 		303,
 		"/",
@@ -69,4 +80,13 @@ func logIn(c *gin.Context) {
 	)
 }
 
+}
+
+func logOut(c *gin.Context) {
+	// Clear the cookie
+	c.SetCookie("token", "", -1, "", "", false, true)
+	c.Redirect(
+		303,
+		"/login",
+	)
 }
