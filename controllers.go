@@ -52,9 +52,12 @@ func showLogInPage(c *gin.Context) {
 func logIn(c *gin.Context) {
 	remail := strings.TrimSpace(c.PostForm("email"))
 	rpassword := strings.TrimSpace(c.PostForm("password"))
+
 	user_id, password := userLogIn(remail, rpassword)
+
 	cookieValue := strconv.Itoa(user_id)
-	if rpassword == password {
+
+	if CheckPasswordHash(rpassword, password) {
 		c.SetCookie("name", cookieValue, 3600, "", "", false, true)
 		c.Set("is_logged_in", true)
 		c.Redirect(
