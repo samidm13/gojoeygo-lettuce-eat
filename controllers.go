@@ -39,7 +39,7 @@ func signUp(c *gin.Context) {
 	c.Set("is_logged_in", true)
 	c.Redirect(
 		303,
-		"/",
+		"/restaurants",
 	)
 }
 func showLogInPage(c *gin.Context) {
@@ -64,7 +64,7 @@ func logIn(c *gin.Context) {
 		c.Set("is_logged_in", true)
 		c.Redirect(
 			303,
-			"/",
+			"/restaurants",
 		)
 	} else {
 		c.Redirect(
@@ -82,10 +82,13 @@ func logOut(c *gin.Context) {
 	)
 }
 
+
 func showRestaurants(c *gin.Context) {
   restaurants := getAllRestaurants()
 	rand.Seed(time.Now().UnixNano())
   token := rand.Intn(100000)
+	// now := time.Now().Format(time.RFC3339)
+	// end := time.Now()+
   c.HTML(
     http.StatusOK,
     "restaurants.html",
@@ -93,6 +96,7 @@ func showRestaurants(c *gin.Context) {
       "title": "Restaurant page",
       "payload": restaurants,
       "token": token,
+			// "now": now,
     },
   )
 }
