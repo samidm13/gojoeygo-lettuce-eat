@@ -40,11 +40,26 @@ func signUp(c *gin.Context) {
 	cookieValue := strconv.Itoa(user_id)
 	c.SetCookie("name", cookieValue, 3600, "", "", false, true)
 	c.Set("is_logged_in", true)
+
 	if token == 0 {
 		c.Redirect(
 			303,
 			"/restaurants",
 	)
+ } else {
+	 _, error := getToken(token)
+
+	 if error != nil {
+		 c.Redirect(
+			 303,
+			 "/",
+	 	)
+	 } else {
+	 c.Redirect(
+		 303,
+		 "/login",
+ 	)
+}
  }
 }
 func showLogInPage(c *gin.Context) {

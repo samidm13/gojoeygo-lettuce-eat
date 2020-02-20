@@ -2,6 +2,7 @@ package main
 
 import  (
  "fmt"
+ "time"
 )
 
 
@@ -20,8 +21,9 @@ func orderPlacing(rest_ID int, tok int, address string){
 type order struct {
 	Token int
 	RestID int
-	address string
-	userID int
+	Address string
+	UserID int
+  OrderTime time.Time
 }
 
 func getOrders() []order {
@@ -41,4 +43,19 @@ func getOrders() []order {
 	}
 
 	return orders
+}
+
+func getToken(giventoken int) ([]order, error) {
+  rows, err := DB.Query("SELECT token, order_time FROM orders WHERE token=$1", giventoken)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  validOrder := make([]order, 0)
+  for rows.Next() {
+  var entry order
+    rows.Scan(&entry.Token, &entry.OrderTime)
+    validOrder = append(validOrder, entry)
+  }
+  return validOrder, err
 }
