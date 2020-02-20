@@ -2,8 +2,14 @@ package main
 
 import (
 	"net/http"
+<<<<<<< HEAD
+	"math/rand"
+	"strconv"
+	"time"
+=======
 	"strconv"
 	"strings"
+>>>>>>> 7968f279252dfa3df3cc1da07471be6d7e8ab139
 
 	"github.com/gin-gonic/gin"
 )
@@ -77,5 +83,50 @@ func logOut(c *gin.Context) {
 	c.Redirect(
 		303,
 		"/login",
+	)
+}
+
+func showRestaurants(c *gin.Context) {
+  restaurants := getAllRestaurants()
+	rand.Seed(time.Now().UnixNano())
+  token := rand.Intn(100000)
+  c.HTML(
+    http.StatusOK,
+    "restaurants.html",
+    gin.H{
+      "title": "Restaurant page",
+      "payload": restaurants,
+      "token": token,
+    },
+  )
+}
+
+func orderSetUp(c *gin.Context) {
+  restID := c.PostForm("RestID")
+  token := c.PostForm("token")
+	address := c.PostForm("address")
+	// userID := c.PostForm("user_id")
+
+	rest_ID, _ := strconv.Atoi(restID)
+	tok, _ := strconv.Atoi(token)
+	// usID, _ := strconv.Atoi(userID)
+
+	orderPlacing(rest_ID, tok, address)
+
+	c.Redirect(
+		303,
+		"/orders",
+	)
+}
+
+func showOrderPage(c *gin.Context) {
+	tok := getOrders()
+	c.HTML(
+		http.StatusOK,
+		"orders.html",
+		gin.H{
+			"title": "Order",
+			"payload": tok,
+		},
 	)
 }
