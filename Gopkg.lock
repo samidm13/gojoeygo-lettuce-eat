@@ -111,6 +111,17 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:9d5b5d543996dd584da1db1e0de1926f3e4c3a8dba0fa2f8db70f3ebee2342e0"
+  name = "golang.org/x/crypto"
+  packages = [
+    "bcrypt",
+    "blowfish",
+  ]
+  pruneopts = "UT"
+  revision = "1d94cc7ab1c630336ab82ccb9c9cda72a875c382"
+
+[[projects]]
+  branch = "master"
   digest = "1:466305ffc5f3d16969a5072672a77d430b60349a72a4226d939ab5979ea94faa"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -139,6 +150,7 @@
   input-imports = [
     "github.com/gin-gonic/gin",
     "github.com/lib/pq",
+    "golang.org/x/crypto/bcrypt",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
