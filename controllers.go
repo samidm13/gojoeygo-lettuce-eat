@@ -2,14 +2,10 @@ package main
 
 import (
 	"net/http"
-<<<<<<< HEAD
 	"math/rand"
 	"strconv"
 	"time"
-=======
-	"strconv"
 	"strings"
->>>>>>> 7968f279252dfa3df3cc1da07471be6d7e8ab139
 
 	"github.com/gin-gonic/gin"
 )

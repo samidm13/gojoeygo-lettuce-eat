@@ -1,22 +1,5 @@
 package main
-
-<<<<<<< HEAD
-import  (
-  "database/sql"
-	"fmt"
-	"net/http"
-	"strings"
-
-	"github.com/gin-gonic/gin"
-	_ "github.com/lib/pq"
-)
-
   
-
-func registerNewUser(firstname string, lastname string, mail string, pass string) {
-
-  sqlStatement := `
-=======
 import (
 	_ "github.com/lib/pq"
 
@@ -35,7 +18,7 @@ func userSignUp(firstname string, lastname string, mail string, pass string) int
 	hashedpass, _ := HashPassword(pass)
 
 	sqlStatement := `
->>>>>>> 7968f279252dfa3df3cc1da07471be6d7e8ab139
+
   INSERT INTO users (first_name, last_name, email, password)
   VALUES ($1, $2, $3, $4) RETURNING user_id`
 	err := DB.QueryRow(sqlStatement, firstname, lastname, mail, hashedpass).Scan(&user_id)
