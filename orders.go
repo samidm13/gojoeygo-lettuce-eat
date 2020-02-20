@@ -5,12 +5,12 @@ import  (
 )
 
 
-func orderPlacing(rest_ID int, tok int, address string){
+func orderPlacing(rest_ID int, tok int, address string, usID int ){
 	sqlStatement := `
-	INSERT INTO orders (rest_id, token, address)
-	VALUES ($1, $2, $3)`
+	INSERT INTO orders (rest_id, token, address, user_id)
+	VALUES ($1, $2, $3, $4)`
 
-	_, err := DB.Exec(sqlStatement, rest_ID, tok, address)
+	_, err := DB.Exec(sqlStatement, rest_ID, tok, address, usID)
 
 	if err != nil {
 		panic(err)
@@ -24,9 +24,9 @@ type order struct {
 	userID int
 }
 
-func getOrders() []order {
-	sqlStatement := `SELECT token, rest_id FROM orders`
-	rows, err := DB.Query(sqlStatement)
+func getOrders(usID int) []order {
+	sqlStatement := `SELECT token, rest_id FROM orders WHERE user_id=$1`
+	rows, err := DB.Query(sqlStatement, usID)
 	if err != nil {
 		panic(err)
 	}
