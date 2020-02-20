@@ -84,7 +84,7 @@ func logIn(c *gin.Context) {
 		c.Set("is_logged_in", true)
 		c.Redirect(
 			303,
-			"/",
+			"/restaurants",
 		)
 	} else {
 		c.Redirect(
@@ -102,10 +102,13 @@ func logOut(c *gin.Context) {
 	)
 }
 
+
 func showRestaurants(c *gin.Context) {
   restaurants := getAllRestaurants()
 	rand.Seed(time.Now().UnixNano())
   token := rand.Intn(100000)
+	// now := time.Now().Format(time.RFC3339)
+	// end := time.Now()+
   c.HTML(
     http.StatusOK,
     "restaurants.html",
@@ -113,21 +116,26 @@ func showRestaurants(c *gin.Context) {
       "title": "Restaurant page",
       "payload": restaurants,
       "token": token,
+			// "now": now,
     },
   )
 }
+
+
+
 
 func orderSetUp(c *gin.Context) {
   restID := c.PostForm("RestID")
   token := c.PostForm("token")
 	address := c.PostForm("address")
-	// userID := c.PostForm("user_id")
+	userID, _ := c.Cookie("name")
+	time := c.PostForm("appt")
 
 	rest_ID, _ := strconv.Atoi(restID)
 	tok, _ := strconv.Atoi(token)
-	// usID, _ := strconv.Atoi(userID)
+	usID, _ := strconv.Atoi(userID)
 
-	orderPlacing(rest_ID, tok, address)
+	orderPlacing(rest_ID, tok, address, usID, time)
 
 	c.Redirect(
 		303,
@@ -136,7 +144,9 @@ func orderSetUp(c *gin.Context) {
 }
 
 func showOrderPage(c *gin.Context) {
-	tok := getOrders()
+	userID, _ := c.Cookie("name")
+	usID, _ := strconv.Atoi(userID)
+	tok := getOrders(usID)
 	c.HTML(
 		http.StatusOK,
 		"orders.html",
