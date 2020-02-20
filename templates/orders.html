@@ -2,5 +2,6 @@
 
 {{range .payload}}
 <h3><p> Your unique order code</p><p> {{.Token}}</p><h3>
+  <h4><p> No more orders placed after</p><p>{{ .Ordertime }}</p><h4>
 
 {{end}}

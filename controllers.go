@@ -105,12 +105,13 @@ func orderSetUp(c *gin.Context) {
   token := c.PostForm("token")
 	address := c.PostForm("address")
 	userID, _ := c.Cookie("name")
+	time := c.PostForm("appt")
 
 	rest_ID, _ := strconv.Atoi(restID)
 	tok, _ := strconv.Atoi(token)
 	usID, _ := strconv.Atoi(userID)
 
-	orderPlacing(rest_ID, tok, address, usID)
+	orderPlacing(rest_ID, tok, address, usID, time)
 
 	c.Redirect(
 		303,
