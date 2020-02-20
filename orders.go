@@ -2,6 +2,7 @@ package main
 
 import  (
  "fmt"
+ "time"
 )
 
 
@@ -42,4 +43,19 @@ func getOrders(usID int) []order {
 	}
 
 	return orders
+}
+
+func getToken(giventoken int) ([]order, error) {
+  rows, err := DB.Query("SELECT token, order_time FROM orders WHERE token=$1", giventoken)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  validOrder := make([]order, 0)
+  for rows.Next() {
+  var entry order
+    rows.Scan(&entry.Token, &entry.OrderTime)
+    validOrder = append(validOrder, entry)
+  }
+  return validOrder, err
 }

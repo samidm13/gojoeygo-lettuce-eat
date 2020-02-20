@@ -33,14 +33,34 @@ func signUp(c *gin.Context) {
 	lastname := c.PostForm("last_name")
 	mail := c.PostForm("email")
 	pass := c.PostForm("password")
+	rtoken := c.PostForm("token")
+	token, _ := strconv.Atoi(rtoken)
+
 	user_id := userSignUp(firstname, lastname, mail, pass)
 	cookieValue := strconv.Itoa(user_id)
 	c.SetCookie("name", cookieValue, 3600, "", "", false, true)
 	c.Set("is_logged_in", true)
-	c.Redirect(
-		303,
-		"/restaurants",
+
+	if token == 0 {
+		c.Redirect(
+			303,
+			"/restaurants",
 	)
+ } else {
+	 _, error := getToken(token)
+
+	 if error != nil {
+		 c.Redirect(
+			 303,
+			 "/",
+	 	)
+	 } else {
+	 c.Redirect(
+		 303,
+		 "/login",
+ 	)
+}
+ }
 }
 func showLogInPage(c *gin.Context) {
 	c.HTML(
