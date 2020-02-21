@@ -3,6 +3,7 @@ package main
 import  (
  "fmt"
  "time"
+
 )
 
 
@@ -26,6 +27,11 @@ type order struct {
   Ordertime string
 }
 
+type token struct {
+  TokenID int
+  Expiration time.Time
+}
+
 func getOrders(usID int) []order {
 	sqlStatement := `SELECT token, rest_id, order_time FROM orders WHERE user_id=$1`
 	rows, err := DB.Query(sqlStatement, usID)
@@ -45,17 +51,15 @@ func getOrders(usID int) []order {
 	return orders
 }
 
-func getToken(giventoken int) ([]order, error) {
-  rows, err := DB.Query("SELECT token, order_time FROM orders WHERE token=$1", giventoken)
-  if err != nil {
-    fmt.Println(err)
-  }
+func getToken(giventoken int) []token {
+  rows, _ := DB.Query("SELECT token, order_time FROM orders WHERE token=$1", giventoken)
 
-  validOrder := make([]order, 0)
+
+  validTokens := make([]token, 0)
   for rows.Next() {
-  var entry order
-    rows.Scan(&entry.Token, &entry.OrderTime)
-    validOrder = append(validOrder, entry)
+  var entry token
+    rows.Scan(&entry.TokenID, &entry.Expiration)
+    validTokens = append(validTokens, entry)
   }
-  return validOrder, err
+  return validTokens
 }
