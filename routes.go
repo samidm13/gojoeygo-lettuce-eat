@@ -20,11 +20,13 @@ func setupRouter() *gin.Engine {
 
 	router.GET("/logout", ensureLoggedIn(), logOut)
 
-	router.GET("/restaurants",ensureLoggedIn(), showRestaurants)
+	router.GET("/restaurants", ensureLoggedIn(), showRestaurants)
 
 	router.POST("/orders", ensureLoggedIn(), orderSetUp)
 
 	router.GET("/orders", ensureLoggedIn(), showOrderPage)
+
+	router.GET("/menu", ensureLoggedIn())
 
 	return router
 }

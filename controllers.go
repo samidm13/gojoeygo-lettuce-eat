@@ -1,11 +1,11 @@
 package main
 
 import (
-	"net/http"
 	"math/rand"
+	"net/http"
 	"strconv"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -44,35 +44,60 @@ func signUp(c *gin.Context) {
 		c.Redirect(
 			303,
 			"/restaurants",
-	)
-	return
+		)
+		return
 	}
 
-token, _ := strconv.Atoi(rtoken)
+	token, _ := strconv.Atoi(rtoken)
 
-validTokens := getToken(token)
+	validTokens := getToken(token)
 
-	 if len(validTokens) == 0 {
-		 c.Redirect(
-			 303,
-			 "/restaurants",
-	 	)
+	if len(validTokens) == 0 {
+		c.Redirect(
+			303,
+			"/restaurants",
+		)
 		return
-	 }
+	}
 
-	 if validTokens[0].Expiration.Before(time.Now()) {
-		 c.Redirect(
-			 303,
-			 "/restaurants",
-	 	)
+	if validTokens[0].Expiration.Before(time.Now()) {
+		c.Redirect(
+			303,
+			"/restaurants",
+		)
 		return
-	 }
+	}
 
-	 c.Redirect(
-		 303,
-		 "/menu",
+	menuList := displayMenu(token)
+	c.HTML(
+		http.StatusOK,
+		"menu.html",
+		gin.H{
+			"title":   "Menu",
+			"payload": menuList,
+		},
 	)
 }
+
+// func showMenuPage(c *gin.Context) {
+// 	token := c.PostForm("token")
+// 	fmt.Println(token)
+// 	tokenint, _ := strconv.Atoi(token)
+// 	fmt.Println(tokenint)
+// 	validTokens := displayMenu(tokenint)
+// 	fmt.Println("!")
+// 	fmt.Println(validTokens)
+
+// 	c.HTML(
+// 		http.StatusOK,
+// 		"menu.html",
+// 		gin.H{
+// 			"title":   "Menu",
+// 			"payload": validTokens,
+// 		},
+// 	)
+
+// }
 
 func showLogInPage(c *gin.Context) {
 	c.HTML(
@@ -114,31 +139,27 @@ func logOut(c *gin.Context) {
 	)
 }
 
-
 func showRestaurants(c *gin.Context) {
-  restaurants := getAllRestaurants()
+	restaurants := getAllRestaurants()
 	rand.Seed(time.Now().UnixNano())
-  token := rand.Intn(100000)
+	token := rand.Intn(100000)
 	// now := time.Now().Format(time.RFC3339)
 	// end := time.Now()+
-  c.HTML(
-    http.StatusOK,
-    "restaurants.html",
-    gin.H{
-      "title": "Restaurant page",
-      "payload": restaurants,
-      "token": token,
+	c.HTML(
+		http.StatusOK,
+		"restaurants.html",
+		gin.H{
+			"title":   "Restaurant page",
+			"payload": restaurants,
+			"token":   token,
 			// "now": now,
-    },
-  )
+		},
+	)
 }
 
-
-
-
 func orderSetUp(c *gin.Context) {
-  restID := c.PostForm("RestID")
-  token := c.PostForm("token")
+	restID := c.PostForm("RestID")
+	token := c.PostForm("token")
 	address := c.PostForm("address")
 	userID, _ := c.Cookie("name")
 	time := c.PostForm("appt")
@@ -163,7 +184,7 @@ func showOrderPage(c *gin.Context) {
 		http.StatusOK,
 		"orders.html",
 		gin.H{
-			"title": "Order",
+			"title":   "Order",
 			"payload": tok,
 		},
 	)
