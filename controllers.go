@@ -33,7 +33,7 @@ func signUp(c *gin.Context) {
 	lastname := c.PostForm("last_name")
 	mail := c.PostForm("email")
 	pass := c.PostForm("password")
-	rtoken := c.PostForm("token")
+	rtoken := strings.TrimSpace(c.PostForm("token"))
 
 	user_id := userSignUp(firstname, lastname, mail, pass)
 	cookieValue := strconv.Itoa(user_id)
@@ -86,6 +86,7 @@ func showLogInPage(c *gin.Context) {
 func logIn(c *gin.Context) {
 	remail := strings.TrimSpace(c.PostForm("email"))
 	rpassword := strings.TrimSpace(c.PostForm("password"))
+	rtoken := strings.TrimSpace(c.PostForm("token"))
 
 	user_id, password := userLogIn(remail, rpassword)
 
@@ -94,16 +95,46 @@ func logIn(c *gin.Context) {
 	if CheckPasswordHash(rpassword, password) {
 		c.SetCookie("name", cookieValue, 3600, "", "", false, true)
 		c.Set("is_logged_in", true)
-		c.Redirect(
-			303,
-			"/restaurants",
+
+		if rtoken == "" {
+			c.Redirect(
+				303,
+				"/restaurants",
 		)
-	} else {
-		c.Redirect(
-			303,
-			"/signup",
-		)
-	}
+		return
+		}
+
+		token, _ := strconv.Atoi(rtoken)
+
+		validTokens := getToken(token)
+
+		if len(validTokens) == 0 {
+				 c.Redirect(
+					 303,
+					 "/restaurants",
+			 	)
+				return
+			 }
+
+			if validTokens[0].Expiration.Before(time.Now()) {
+				 c.Redirect(
+					 303,
+					 "/restaurants",
+			 	)
+				return
+			 }
+
+			 c.Redirect(
+				 303,
+				 "/menu",
+			)
+
+			} else {
+				c.Redirect(
+					303,
+					"/signup",
+					)
+			}
 }
 func logOut(c *gin.Context) {
 	// Clear the cookie
