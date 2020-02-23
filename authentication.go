@@ -18,7 +18,7 @@ func ensureLoggedIn() gin.HandlerFunc {
 		if !loggedIn {
 			c.Redirect(
 				303,
-				"/login",
+				"/signlog",
 			)
 		}
 	}

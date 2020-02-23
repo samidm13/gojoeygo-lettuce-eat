@@ -19,12 +19,12 @@ func showIndexPage(c *gin.Context) {
 		},
 	)
 }
-func showSignUpPage(c *gin.Context) {
+func showSignLogPage(c *gin.Context) {
 	c.HTML(
 		http.StatusOK,
-		"signup.html",
+		"signlog.html",
 		gin.H{
-			"title": "Sign Up",
+			"title": "Sign Up / Log In",
 		},
 	)
 }
@@ -33,7 +33,7 @@ func signUp(c *gin.Context) {
 	lastname := c.PostForm("last_name")
 	mail := c.PostForm("email")
 	pass := c.PostForm("password")
-	rtoken := strings.TrimSpace(c.PostForm("token"))
+	rtoken := strings.TrimSpace(c.PostForm("signtoken"))
 
 	user_id := userSignUp(firstname, lastname, mail, pass)
 	cookieValue := strconv.Itoa(user_id)
@@ -99,19 +99,19 @@ func signUp(c *gin.Context) {
 
 // }
 
-func showLogInPage(c *gin.Context) {
-	c.HTML(
-		http.StatusOK,
-		"login.html",
-		gin.H{
-			"title": "Log In",
-		},
-	)
-}
+// func showLogInPage(c *gin.Context) {
+// 	c.HTML(
+// 		http.StatusOK,
+// 		"signlog.html",
+// 		gin.H{
+// 			"title": "Sign Up / Log In",
+// 		},
+// 	)
+// }
 func logIn(c *gin.Context) {
-	remail := strings.TrimSpace(c.PostForm("email"))
-	rpassword := strings.TrimSpace(c.PostForm("password"))
-	rtoken := strings.TrimSpace(c.PostForm("token"))
+	remail := strings.TrimSpace(c.PostForm("username"))
+	rpassword := strings.TrimSpace(c.PostForm("pass"))
+	rtoken := strings.TrimSpace(c.PostForm("logtoken"))
 
 	user_id, password := userLogIn(remail, rpassword)
 
@@ -157,7 +157,7 @@ func logIn(c *gin.Context) {
 			} else {
 				c.Redirect(
 					303,
-					"/signup",
+					"/signlog",
 					)
 			}
 }
@@ -166,7 +166,7 @@ func logOut(c *gin.Context) {
 	c.SetCookie("name", "", -1, "", "", false, true)
 	c.Redirect(
 		303,
-		"/login",
+		"/signlog",
 	)
 }
 
