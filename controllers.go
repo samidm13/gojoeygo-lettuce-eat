@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/sessions"
 )
 
 func showIndexPage(c *gin.Context) {
@@ -99,15 +100,6 @@ func signUp(c *gin.Context) {
 
 // }
 
-// func showLogInPage(c *gin.Context) {
-// 	c.HTML(
-// 		http.StatusOK,
-// 		"signlog.html",
-// 		gin.H{
-// 			"title": "Sign Up / Log In",
-// 		},
-// 	)
-// }
 func logIn(c *gin.Context) {
 	remail := strings.TrimSpace(c.PostForm("username"))
 	rpassword := strings.TrimSpace(c.PostForm("pass"))
@@ -155,10 +147,17 @@ func logIn(c *gin.Context) {
 			)
 
 			} else {
-				c.Redirect(
-					303,
-					"/signlog",
-					)
+					session := sessions.Default(c)
+					session.AddFlash("The email or password is incorrect")
+					flash := session.Flashes()
+					session.Save()
+					c.HTML(
+						http.StatusOK,
+						"signlog.html",
+						gin.H{
+							"title": "Sign Up / Log In",
+							"flashes": flash,
+							})
 			}
 }
 func logOut(c *gin.Context) {
