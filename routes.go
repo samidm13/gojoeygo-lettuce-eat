@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-gonic/gin"
 )
 
 func setupRouter() *gin.Engine {
-	
+
 	router := gin.Default()
 
 	store := cookie.NewStore([]byte("secret"))
@@ -37,6 +37,8 @@ func setupRouter() *gin.Engine {
 	router.GET("/orders", ensureLoggedIn(), showOrderPage)
 
 	router.GET("/menu", ensureLoggedIn())
+
+	router.POST("/basket", ensureLoggedIn(), createBasket)
 
 	return router
 }
