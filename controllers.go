@@ -54,18 +54,35 @@ func signUp(c *gin.Context) {
 	validTokens := getToken(token)
 
 	if len(validTokens) == 0 {
-		c.Redirect(
-			303,
-			"/restaurants",
-		)
+		session := sessions.Default(c)
+		session.AddFlash("Invalid Token")
+		flash := session.Flashes()
+		session.Save()
+		c.HTML(
+			http.StatusOK,
+			"signlog.html",
+			gin.H{
+				"title": "Sign Up/ Log In",
+				"flashes": flash,
+		})
+
 		return
 	}
 
 	if validTokens[0].Expiration.Before(time.Now()) {
-		c.Redirect(
-			303,
-			"/restaurants",
-		)
+
+		session := sessions.Default(c)
+		session.AddFlash("Expired Token")
+		flash := session.Flashes()
+		session.Save()
+		c.HTML(
+			http.StatusOK,
+			"signlog.html",
+			gin.H{
+				"title": "Sign Up/ Log In",
+				"flashes": flash,
+		})
+
 		return
 	}
 
@@ -126,25 +143,44 @@ func logIn(c *gin.Context) {
 		validTokens := getToken(token)
 
 		if len(validTokens) == 0 {
-				 c.Redirect(
-					 303,
-					 "/restaurants",
-			 	)
+			session := sessions.Default(c)
+			session.AddFlash("Invalid Token")
+			flash := session.Flashes()
+			session.Save()
+			c.HTML(
+				http.StatusOK,
+				"signlog.html",
+				gin.H{
+					"title": "Sign Up/ Log In",
+					"flashes": flash,
+			})
 				return
 			 }
 
 			if validTokens[0].Expiration.Before(time.Now()) {
-				 c.Redirect(
-					 303,
-					 "/restaurants",
-			 	)
+				session := sessions.Default(c)
+			 session.AddFlash("Expired Token")
+			 flash := session.Flashes()
+			 session.Save()
+			 c.HTML(
+				 http.StatusOK,
+				 "signlog.html",
+				 gin.H{
+					 "title": "Sign Up/ Log In",
+					 "flashes": flash,
+			 })
 				return
 			 }
 
-			 c.Redirect(
-				 303,
-				 "/menu",
-			)
+			 menuList := displayMenu(token)
+		 	c.HTML(
+		 		http.StatusOK,
+		 		"menu.html",
+		 		gin.H{
+		 			"title":   "Menu",
+		 			"payload": menuList,
+		 		},
+		 	)
 
 			} else {
 					session := sessions.Default(c)
