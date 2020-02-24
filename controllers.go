@@ -1,14 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
 )
 
 func showIndexPage(c *gin.Context) {
@@ -117,8 +118,8 @@ func logIn(c *gin.Context) {
 			c.Redirect(
 				303,
 				"/restaurants",
-		)
-		return
+			)
+			return
 		}
 
 		token, _ := strconv.Atoi(rtoken)
@@ -126,39 +127,44 @@ func logIn(c *gin.Context) {
 		validTokens := getToken(token)
 
 		if len(validTokens) == 0 {
-				 c.Redirect(
-					 303,
-					 "/restaurants",
-			 	)
-				return
-			 }
-
-			if validTokens[0].Expiration.Before(time.Now()) {
-				 c.Redirect(
-					 303,
-					 "/restaurants",
-			 	)
-				return
-			 }
-
-			 c.Redirect(
-				 303,
-				 "/menu",
+			c.Redirect(
+				303,
+				"/restaurants",
 			)
+			return
+		}
 
-			} else {
-					session := sessions.Default(c)
-					session.AddFlash("The email or password is incorrect")
-					flash := session.Flashes()
-					session.Save()
-					c.HTML(
-						http.StatusOK,
-						"signlog.html",
-						gin.H{
-							"title": "Sign Up / Log In",
-							"flashes": flash,
-							})
-			}
+		if validTokens[0].Expiration.Before(time.Now()) {
+			c.Redirect(
+				303,
+				"/restaurants",
+			)
+			return
+		}
+
+		menuList := displayMenu(token)
+		c.HTML(
+			http.StatusOK,
+			"menu.html",
+			gin.H{
+				"title":   "Menu",
+				"payload": menuList,
+			},
+		)
+
+	} else {
+		session := sessions.Default(c)
+		session.AddFlash("The email or password is incorrect")
+		flash := session.Flashes()
+		session.Save()
+		c.HTML(
+			http.StatusOK,
+			"signlog.html",
+			gin.H{
+				"title":   "Sign Up / Log In",
+				"flashes": flash,
+			})
+	}
 }
 func logOut(c *gin.Context) {
 	// Clear the cookie
@@ -217,5 +223,29 @@ func showOrderPage(c *gin.Context) {
 			"title":   "Order",
 			"payload": tok,
 		},
+	)
+}
+
+func createBasket(c *gin.Context) {
+	DishID := c.PostForm("DishID")
+	Token := c.PostForm("token")
+	UserID, _ := c.Cookie("name")
+
+	dishID, _ := strconv.Atoi(DishID)
+	token, _ := strconv.Atoi(Token)
+	userID, _ := strconv.Atoi(UserID)
+
+	dishName := getDish(dishID)[0].dish_name
+	dishPrice := getDish(dishID)[0].dish_price
+
+	floatDishPrice, err := strconv.ParseFloat(dishPrice, 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+	addBasket(dishID, dishName, floatDishPrice, token, userID)
+
+	c.Redirect(
+		303,
+		"/",
 	)
 }

@@ -1,14 +1,17 @@
 {{ template "header.html" .}}
 <h1> Choose your dishes </h1>
 {{ range .payload}}
-<form action="/" method="POST" >
+<form action="/basket" method="POST" >
   <label class="container">{{.DishName}}<br>{{.DishDescription}}<br>£{{.DishPrice}}
-    <input type="checkbox" value="{{.DishID}}" name="{{.DishID}}">
+    <input type="radio" name="DishID" value="{{.DishID}}"> 
+    <input name="token" type ="HIDDEN" value="{{.Token}}">
+
     <span class="checkmark"></span>
+
     <br>
     <br>
     {{end}}
-       <input type="submit" value="Add to basket">
+    <input type="submit" value="Add to basket">
   </label>
   </form>
   <br>
