@@ -1,3 +1,8 @@
+{{ template "menubar.html" . }}
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
 <h1> Your new basket <h1>
 
 {{range .payload}}
