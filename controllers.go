@@ -276,8 +276,42 @@ func createBasket(c *gin.Context) {
 		addBasket(dishID, dishName, floatDishPrice, token, userID)
 	}
 
-	c.Redirect(
-		303,
-		"/",
+	total := totalPrice(token, userID)
+
+	dishes := dishesInBasket(token, userID)
+
+	orderTime := orderTime(token)
+
+	c.HTML(
+		http.StatusOK,
+		"userconfirmation.html",
+		gin.H{
+			"title":     "User Confirmation",
+			"payload":   dishes,
+			"total":     total,
+			"token":     token,
+			"orderTime": orderTime,
+		},
+	)
+}
+
+func showAdminPage(c *gin.Context) {
+	Token := c.PostForm("token")
+	// userID, _ := c.Cookie("name")
+	token, _ := strconv.Atoi(Token)
+	dishes := dishesInOrder(token)
+	total := totalOrderPrice(token)
+	orderTime := orderTime(token)
+
+	c.HTML(
+		http.StatusOK,
+		"adminconfirmation.html",
+		gin.H{
+			"title":     "Admin Confirmation",
+			"payload":   dishes,
+			"total":     total,
+			"token":     token,
+			"orderTime": orderTime,
+		},
 	)
 }
