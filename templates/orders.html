@@ -1,7 +1,32 @@
-<h1> Your new basket <h1>
 
-{{range .payload}}
-<h3><p> Your unique order code</p><p> {{.Token}}</p><h3>
-  <h4><p> No more orders to be placed after</p><p>{{ .Ordertime }}</p><h4>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{{end}}
+    <link rel="stylesheet" href="public/token.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    {{ template "menubar.html" . }}
+    {{ template "header.html" .}}
+
+	     <div class="token" >
+         {{range .payload}}
+          <h3><p> Your unique order code</p><p> {{.Token}}</p><h3>
+        {{end}}
+        <button class="btn">Share with friends</button>
+      </br>
+        </div>
+
+   {{template "footer.html" .}}
+ </body>
+
+</html>

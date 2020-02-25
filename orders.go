@@ -38,6 +38,7 @@ func getOrders(usID int) []order {
 	if err != nil {
 		panic(err)
 	}
+  fmt.Println(rows)
 
 	orders := make([]order, 0)
 	for rows.Next() {

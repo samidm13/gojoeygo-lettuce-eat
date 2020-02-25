@@ -144,7 +144,7 @@ func logIn(c *gin.Context) {
 		validTokens := getToken(token)
 
 		if len(validTokens) == 0 {
-      
+
 			session := sessions.Default(c)
 			session.AddFlash("Invalid Token")
 			flash := session.Flashes()
@@ -175,6 +175,7 @@ func logIn(c *gin.Context) {
 			 }
 
 			 menuList := displayMenu(token)
+			 fmt.Println(menuList)
 		 	c.HTML(
 		 		http.StatusOK,
 		 		"menu.html",
@@ -260,22 +261,26 @@ func showOrderPage(c *gin.Context) {
 }
 
 func createBasket(c *gin.Context) {
-	DishID := c.PostForm("DishID")
+
+	dishesID := c.PostFormArray("DishID")
 	Token := c.PostForm("token")
 	UserID, _ := c.Cookie("name")
 
-	dishID, _ := strconv.Atoi(DishID)
 	token, _ := strconv.Atoi(Token)
 	userID, _ := strconv.Atoi(UserID)
 
-	dishName := getDish(dishID)[0].dish_name
-	dishPrice := getDish(dishID)[0].dish_price
+	for _, DishID := range dishesID {
+		dishID, _ := strconv.Atoi(DishID)
 
-	floatDishPrice, err := strconv.ParseFloat(dishPrice, 64)
-	if err != nil {
-		fmt.Println(err)
+		dishName := getDish(dishID)[0].dish_name
+		dishPrice := getDish(dishID)[0].dish_price
+
+		floatDishPrice, err := strconv.ParseFloat(dishPrice, 64)
+		if err != nil {
+			fmt.Println(err)
+		}
+		addBasket(dishID, dishName, floatDishPrice, token, userID)
 	}
-	addBasket(dishID, dishName, floatDishPrice, token, userID)
 
 	c.Redirect(
 		303,
