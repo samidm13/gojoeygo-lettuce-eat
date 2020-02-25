@@ -1,0 +1,9 @@
+<h2> Confirmation for group order {{.token}}</h2>
+{{range .payload}}
+{{.FirstName}} {{.LastName}} {{.DishName}} £{{.DishPrice}}<br>
+<br>
+{{end}}
+<br>
+<p>Total:£{{.total}}</p>
+
+This order will be placed at: {{.orderTime}}
