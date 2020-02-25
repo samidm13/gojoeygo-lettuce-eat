@@ -1,24 +1,71 @@
-{{ template "menubar.html" . }}
-{{ template "header.html" .}}
-<h1> Place your order </h1>
-{{ range .payload}}
-<form action="/orders" method="POST" >
-  <label class="container">{{.RestName}}
-    <input type="radio" value="{{.RestID}}" name="RestID">
-    <span class="checkmark"></span>
-    <br>
-    {{end}}
-    <h4> Please input delivery address </h4>
-    <input type="text" placeholder="address" name="address">
-    <br>
-    <h4>Please select a time when no more orders will be accepted.</h4>
-    <input type="datetime-local" id="appt" name="appt"
-       min="2020-02-20T12:01" max="2020-03-20T01:01" required>
-    <br>
-    <br>
-    <input name="token" type ="HIDDEN" value="{{.token}}">
-    <input type="submit" value="Create Order">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  </label>
-  </form>
-  <br>
+    <link rel="stylesheet" href="public/font.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    {{ template "menubar.html" . }}
+    {{ template "header.html" .}}
+
+    <div class="w3-main" style="center">
+
+      <header class="w3-container w3-xlarge">
+        <p class="w3-left"><br></p>
+      </header>
+
+      <div class="w3-display-container w3-container">
+        <img src="https://www.w3schools.com/w3images/hamburger.jpg" alt="Jeans" style="width:100%">
+        <div class="w3-display-topleft " style="padding:24px 48px">
+          <h1 class="w3-jumbo w3-hide-small">Select your restaurant</h1>
+          <h1 class="w3-hide-large w3-hide-medium">Select a restaurant</h1>
+          <h1 class="w3-hide-small">And start odering your favourite food</h1>
+        </div>
+      </div>
+
+      <div class="w3-container w3-text-grey">
+        <p>4 restaurants</p>
+      </div>
+
+      <div class="w3-row">
+              {{ range .payload}}
+              <div class="w3-col l3 s6">
+                <div class="w3-container">
+
+                <form action="/orders" method="POST" >
+                  <img src="https://www.w3schools.com/w3images/salmon.jpg" style="width:100%">
+                  <p><h4>{{.RestName}}</h4></p>
+                    <b><input type="radio" value="{{.RestID}}" name="RestID">
+                      <span class="checkmark"></span></b></p>
+                    </div>
+                  </div>
+                {{end}}
+      </div>
+
+    <div class="w3-container w3-black w3-padding-32">
+        <h1>Delivery address.</h1>
+        <p><input class="w3-input w3-border" type="text" name="address" placeholder="Enter delivery address" style="width:100%"></p>
+    </div>
+    <br>
+    <div class="w3-container w3-black w3-padding-32">
+        <h1>Time when no orders will be accepted.</h1>
+        <p><input class="w3-input" type="datetime-local" id="appt" name="appt"
+           min="2020-02-20T12:01" max="2020-03-20T01:01" required></p>
+        <input name="token" type ="HIDDEN" value="{{.token}}">
+        <button type="submit" class="order-button">Create Order</button>
+    </div>
+  </div>
+
+      </form>
+  </body>
+  {{template "footer.html" .}}
+</html>
