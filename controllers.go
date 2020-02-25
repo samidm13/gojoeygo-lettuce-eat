@@ -63,9 +63,9 @@ func signUp(c *gin.Context) {
 			http.StatusOK,
 			"signlog.html",
 			gin.H{
-				"title": "Sign Up/ Log In",
+				"title":   "Sign Up/ Log In",
 				"flashes": flash,
-		})
+			})
 
 		return
 	}
@@ -80,9 +80,9 @@ func signUp(c *gin.Context) {
 			http.StatusOK,
 			"signlog.html",
 			gin.H{
-				"title": "Sign Up/ Log In",
+				"title":   "Sign Up/ Log In",
 				"flashes": flash,
-		})
+			})
 
 		return
 	}
@@ -153,37 +153,36 @@ func logIn(c *gin.Context) {
 				http.StatusOK,
 				"signlog.html",
 				gin.H{
-					"title": "Sign Up/ Log In",
+					"title":   "Sign Up/ Log In",
 					"flashes": flash,
-			})
-				return
-			 }
+				})
+			return
+		}
 
-			if validTokens[0].Expiration.Before(time.Now()) {
-			 session := sessions.Default(c)
-			 session.AddFlash("Expired Token")
-			 flash := session.Flashes()
-			 session.Save()
-			 c.HTML(
-				 http.StatusOK,
-				 "signlog.html",
-				 gin.H{
-					 "title": "Sign Up/ Log In",
-					 "flashes": flash,
-			 })
-				return
-			 }
+		if validTokens[0].Expiration.Before(time.Now()) {
+			session := sessions.Default(c)
+			session.AddFlash("Expired Token")
+			flash := session.Flashes()
+			session.Save()
+			c.HTML(
+				http.StatusOK,
+				"signlog.html",
+				gin.H{
+					"title":   "Sign Up/ Log In",
+					"flashes": flash,
+				})
+			return
+		}
 
-			 menuList := displayMenu(token)
-			 fmt.Println(menuList)
-		 	c.HTML(
-		 		http.StatusOK,
-		 		"menu.html",
-		 		gin.H{
-		 			"title":   "Menu",
-		 			"payload": menuList,
-		 		},
-		 	)
+		menuList := displayMenu(token)
+		c.HTML(
+			http.StatusOK,
+			"menu.html",
+			gin.H{
+				"title":   "Menu",
+				"payload": menuList,
+			},
+		)
 
 	} else {
 		session := sessions.Default(c)
@@ -265,16 +264,12 @@ func createBasket(c *gin.Context) {
 	dishesID := c.PostFormArray("DishID")
 	Token := c.PostForm("token")
 	UserID, _ := c.Cookie("name")
-
 	token, _ := strconv.Atoi(Token)
 	userID, _ := strconv.Atoi(UserID)
-
 	for _, DishID := range dishesID {
 		dishID, _ := strconv.Atoi(DishID)
-
 		dishName := getDish(dishID)[0].dish_name
 		dishPrice := getDish(dishID)[0].dish_price
-
 		floatDishPrice, err := strconv.ParseFloat(dishPrice, 64)
 		if err != nil {
 			fmt.Println(err)
@@ -282,8 +277,42 @@ func createBasket(c *gin.Context) {
 		addBasket(dishID, dishName, floatDishPrice, token, userID)
 	}
 
-	c.Redirect(
-		303,
-		"/",
+	total := totalPrice(token, userID)
+
+	dishes := dishesInBasket(token, userID)
+
+	orderTime := orderTime(token)
+
+	c.HTML(
+		http.StatusOK,
+		"userconfirmation.html",
+		gin.H{
+			"title":     "User Confirmation",
+			"payload":   dishes,
+			"total":     total,
+			"token":     token,
+			"orderTime": orderTime,
+		},
+	)
+}
+
+func showAdminPage(c *gin.Context) {
+	Token := c.PostForm("token")
+	// userID, _ := c.Cookie("name")
+	token, _ := strconv.Atoi(Token)
+	dishes := dishesInOrder(token)
+	total := totalOrderPrice(token)
+	orderTime := orderTime(token)
+
+	c.HTML(
+		http.StatusOK,
+		"adminconfirmation.html",
+		gin.H{
+			"title":     "Admin Confirmation",
+			"payload":   dishes,
+			"total":     total,
+			"token":     token,
+			"orderTime": orderTime,
+		},
 	)
 }
