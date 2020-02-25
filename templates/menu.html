@@ -3,7 +3,7 @@
 {{ range .payload}}
 <form action="/basket" method="POST" >
   <label class="container">{{.DishName}}<br>{{.DishDescription}}<br>£{{.DishPrice}}
-    <input type="radio" name="DishID" value="{{.DishID}}"> 
+    <input type="checkbox" name="DishID" value="{{.DishID}}"> 
     <input name="token" type ="HIDDEN" value="{{.Token}}">
 
     <span class="checkmark"></span>
