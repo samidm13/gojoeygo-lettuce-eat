@@ -1,3 +1,14 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="public/master-stylesheet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  </head>
+  <body>
+  {{ template "menubar.html" .}}
+  {{ template "header.html" .}}
+
 <h2> Confirmation for group order {{.token}}</h2>
 {{range .payload}}
 {{.FirstName}} {{.LastName}} {{.DishName}} £{{.DishPrice}}<br>
@@ -6,4 +17,7 @@
 <br>
 <p>Total:£{{.total}}</p>
 
-This order will be placed at: {{.orderTime}}
+<p>This order will be placed at: {{.orderTime}} </p>
+
+</body>
+</html>

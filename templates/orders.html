@@ -1,16 +1,38 @@
-
-{{ template "menubar.html" . }}
-  
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="public/master-stylesheet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  </head>
+  <body>
+  {{ template "menubar.html" .}}
   {{ template "header.html" .}}
-<h1> Your new order <h1>
-
-{{range .payload}}
-<h2> Share your order code with others so they can join your order!</h2>
-<h3><p> Unique order code:</p><p> {{.Token}}</p><h3>
-  <h4><p> No more orders to be placed after</p><p>{{ .Ordertime }}</p><h4>
+  <center><h1> Share your order code with others so they can join your order!<h1></center>
+  <br>
+  {{range .payload}}
+  <center>
+<h3><p>Unique order code:</p><h3>
+<input type="text" value="{{.Token}}" id="myInput" style="text-align:center;" readonly>
+<button onclick="myFunction()">Copy</button>
+<br>
+<br>
+  <h4><p> This order will be placed at {{ .Ordertime }}</p><h4>
+    <br>
     <form action="/adminconf" method="POST" >
     <input name="token" type ="HIDDEN" value="{{.Token}}">
     <input type="submit" value="View order status">
     </form>
-{{end}}
+    {{end}}
+    </center>
 
+  <script>
+   function myFunction() {
+        var copyText = document.getElementById("myInput");
+       copyText.select();
+       copyText.setSelectionRange(0, 99999); 
+       document.execCommand("copy");
+       alert("Copied your code: " + copyText.value);
+      }
+  </script>
+</body>
+</html>
