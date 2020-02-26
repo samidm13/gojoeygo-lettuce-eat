@@ -88,12 +88,14 @@ func signUp(c *gin.Context) {
 	}
 
 	menuList := displayMenu(token)
+	number := len(menuList)
 	c.HTML(
 		http.StatusOK,
 		"menu.html",
 		gin.H{
 			"title":   "Menu",
 			"payload": menuList,
+			"dishes": number,
 		},
 	)
 }
@@ -175,12 +177,14 @@ func logIn(c *gin.Context) {
 		}
 
 		menuList := displayMenu(token)
+		number := len(menuList)
 		c.HTML(
 			http.StatusOK,
 			"menu.html",
 			gin.H{
 				"title":   "Menu",
 				"payload": menuList,
+				"dishes": number,
 			},
 		)
 
@@ -210,6 +214,7 @@ func logOut(c *gin.Context) {
 
 func showRestaurants(c *gin.Context) {
 	restaurants := getAllRestaurants()
+	number := len(restaurants)
 	rand.Seed(time.Now().UnixNano())
 	token := rand.Intn(100000)
 	// now := time.Now().Format(time.RFC3339)
@@ -221,6 +226,7 @@ func showRestaurants(c *gin.Context) {
 			"title":   "Restaurant page",
 			"payload": restaurants,
 			"token":   token,
+			"restNo": number,
 			// "now": now,
 		},
 	)

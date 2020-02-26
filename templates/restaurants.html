@@ -33,7 +33,7 @@
       </div>
 
       <div class="w3-container w3-text-grey">
-        <p>4 restaurants</p>
+        <p>{{.restNo}} restaurants</p>
       </div>
 
       <div class="w3-row">
@@ -42,7 +42,7 @@
                 <div class="w3-container">
 
                 <form action="/orders" method="POST" >
-                  <img src="https://www.w3schools.com/w3images/salmon.jpg" style="width:100%">
+                  <img src="{{.RestURL}}" style="width:100%">
                   <p><h4>{{.RestName}}</h4></p>
                     <b><input type="radio" value="{{.RestID}}" name="RestID">
                       <span class="checkmark"></span></b></p>
