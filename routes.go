@@ -42,5 +42,7 @@ func setupRouter() *gin.Engine {
 
 	router.POST("/adminconf", ensureLoggedIn(), showAdminPage)
 
+	router.GET("/menu/adminorder", ensureLoggedIn(), adminBasket)
+
 	return router
 }

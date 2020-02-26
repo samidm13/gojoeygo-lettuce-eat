@@ -297,3 +297,20 @@ func showAdminPage(c *gin.Context) {
 		},
 	)
 }
+
+func adminBasket(c *gin.Context) {
+	Token := c.PostForm("token")
+	token, _ := strconv.Atoi(Token)
+
+	menuList := displayMenu(token)
+	number := len(menuList)
+	c.HTML(
+		http.StatusOK,
+		"menu.html",
+		gin.H{
+			"title":   "Menu",
+			"payload": menuList,
+			"dishes": number,
+		},
+	)
+}
