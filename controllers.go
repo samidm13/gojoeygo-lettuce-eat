@@ -95,30 +95,10 @@ func signUp(c *gin.Context) {
 		gin.H{
 			"title":   "Menu",
 			"payload": menuList,
-			"dishes": number,
+			"dishes":  number,
 		},
 	)
 }
-
-// func showMenuPage(c *gin.Context) {
-// 	token := c.PostForm("token")
-// 	fmt.Println(token)
-// 	tokenint, _ := strconv.Atoi(token)
-// 	fmt.Println(tokenint)
-// 	validTokens := displayMenu(tokenint)
-// 	fmt.Println("!")
-// 	fmt.Println(validTokens)
-
-// 	c.HTML(
-// 		http.StatusOK,
-// 		"menu.html",
-// 		gin.H{
-// 			"title":   "Menu",
-// 			"payload": validTokens,
-// 		},
-// 	)
-
-// }
 
 func logIn(c *gin.Context) {
 	remail := strings.TrimSpace(c.PostForm("username"))
@@ -184,7 +164,7 @@ func logIn(c *gin.Context) {
 			gin.H{
 				"title":   "Menu",
 				"payload": menuList,
-				"dishes": number,
+				"dishes":  number,
 			},
 		)
 
@@ -204,7 +184,6 @@ func logIn(c *gin.Context) {
 }
 
 func logOut(c *gin.Context) {
-	// Clear the cookie
 	c.SetCookie("name", "", -1, "", "", false, true)
 	c.Redirect(
 		303,
@@ -217,8 +196,6 @@ func showRestaurants(c *gin.Context) {
 	number := len(restaurants)
 	rand.Seed(time.Now().UnixNano())
 	token := rand.Intn(100000)
-	// now := time.Now().Format(time.RFC3339)
-	// end := time.Now()+
 	c.HTML(
 		http.StatusOK,
 		"restaurants.html",
@@ -226,8 +203,7 @@ func showRestaurants(c *gin.Context) {
 			"title":   "Restaurant page",
 			"payload": restaurants,
 			"token":   token,
-			"restNo": number,
-			// "now": now,
+			"restNo":  number,
 		},
 	)
 }
@@ -304,7 +280,6 @@ func createBasket(c *gin.Context) {
 
 func showAdminPage(c *gin.Context) {
 	Token := c.PostForm("token")
-	// userID, _ := c.Cookie("name")
 	token, _ := strconv.Atoi(Token)
 	dishes := dishesInOrder(token)
 	total := totalOrderPrice(token)
