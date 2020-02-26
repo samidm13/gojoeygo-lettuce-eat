@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>{{.title}}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -33,7 +33,7 @@
       </div>
 
       <div class="w3-container w3-text-grey">
-        <p>4 dishes</p>
+        <p>{{.dishes}} dishes in the menu</p>
       </div>
         <div class="w3-row">
           {{ range .payload}}
@@ -41,7 +41,7 @@
             <div class="w3-container">
               <form action="/basket" method="POST" >
 
-                <img src="https://www.w3schools.com/w3images/salmon.jpg" style="width:100%">
+                <img src="{{.DishURL}}" style="width:100%">
                   <p><h4>{{.DishName}}</h4>{{.DishDescription}}<br><h4>£{{.DishPrice}}</h4>
                     <input type="checkbox" value="{{.DishID}}" name="DishID">
                       <span class="checkmark"></span>
