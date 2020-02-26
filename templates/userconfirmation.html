@@ -1,0 +1,11 @@
+
+<h2> Your basket for order {{.token}}</h2>
+
+{{range .payload}}
+{{.DishName}} £{{.DishPrice}}<br>
+<br>
+{{end}}
+<br>
+<p>Total:£{{.total}}</p>
+
+This order will be placed at: {{.orderTime}}
