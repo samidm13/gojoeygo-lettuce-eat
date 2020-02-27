@@ -29,6 +29,19 @@ p{
     margin: 20px 0 30px;
  }
 
+ .column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+} 
+
+
 
 input {
   background-color: #eee;
@@ -38,7 +51,7 @@ input {
   width: 100%;
 }
 
-button{
+button {
     border-radius: 20px;
     border: 1px solid #496D1D;
     background-color: #496D1D;
@@ -48,5 +61,51 @@ button{
     padding: 12px 45px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    transition: transform 80ms ease-in;
+}
+
+
+.navbar.navbar-default {
+    background: #7FBD32;
+    border: 0px;
+    margin-bottom: -20px;
+    text-align: right;
+    color: #496D1D;
+    font-family: Effra, Helvetica, sans-serif;
   }
+
+  .navbar.order-container {
+    float: right;
+  }
+
+  .navbar input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+  }
+
+  .navbar .order-container button {
+    float: right;
+    padding: 6px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .navbar .order-container button:hover {
+    background: #ccc;
+  }
+  
+  .btn-group button {
+    background-color: #4CAF50; /* Green background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    padding: 10px 2px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: centre; /* Float the buttons side by side */
+  } 
+
+ 
