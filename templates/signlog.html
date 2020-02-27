@@ -11,18 +11,18 @@
     <div>
     {{range .flashes}}{{.}}{{end}}
     </div>
+    <br>
 
     <div class="container" id="container">
     <div class="form-container sign-up-container">
       <form class="form" action="/signup" method="POST">
         <h1>Create Account</h1>
-
-        <span> Please use your email for registration</span>
+<br>
         <input type="text" name="first_name" placeholder="First Name">
         <input type="text" name="last_name" placeholder="Last Name">
         <input type="email" name="email" placeholder="Email">
         <input type="password" name="password" placeholder="Password">
-        <input type="text" name="signtoken" placeholder="Token">
+        <input type="text" name="signtoken" placeholder="Joining an existing order? Enter your code here">
         <button type="submit">Sign Up</button>
       </form>
     </div>
@@ -30,13 +30,12 @@
     <div class="form-container sign-in-container">
       <form class="form" action="/login" method="POST">
         <h1>Sign In</h1>
-        <div class="social-container" style="margin: 8px 0">
+        <div class="social-container" style="margin: 0px">
           <img src="/public/images/logo.png" style="width:100%"></a>
         </div>
-
         <input type="email" name="username" placeholder="Email">
         <input type="password" name="pass" placeholder="Password">
-        <input type="text" name="logtoken" placeholder="Token">
+        <input type="text" name="logtoken" placeholder="Joining an existing order? Enter your code here">
         <button type="submit">Sign In</button>
       </form>
     </div>
@@ -44,12 +43,12 @@
       <div class="overlay">
         <div class="overlay-panel overlay-left">
           <h1>Welcome Back!</h1>
-          <p>To start ordering your favourite food login with your personal info</p>
+          <p>Enter your details to order food with friends</p>
           <button class="ghost" id="signIn">Sign In</button>
         </div>
           <div class="overlay-panel overlay-right">
             <h1>Hello!</h1>
-            <p>Enter your details and join your friends for lunch</p>
+            <p>Register your details to start ordering food with friends</p>
             <button class="ghost" id="signUp">Sign Up</button>
           </div>
         </div>

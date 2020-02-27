@@ -56,7 +56,7 @@ func signUp(c *gin.Context) {
 
 	if len(validTokens) == 0 {
 		session := sessions.Default(c)
-		session.AddFlash("Invalid Token")
+		session.AddFlash("Oops, we don't recognise that code! Please check you entered it correctly")
 		flash := session.Flashes()
 		session.Save()
 		c.HTML(
@@ -73,7 +73,7 @@ func signUp(c *gin.Context) {
 	if validTokens[0].Expiration.Before(time.Now()) {
 
 		session := sessions.Default(c)
-		session.AddFlash("Expired Token")
+		session.AddFlash("That code has expired! To start a new order, simply proceed without one")
 		flash := session.Flashes()
 		session.Save()
 		c.HTML(
@@ -128,7 +128,7 @@ func logIn(c *gin.Context) {
 		if len(validTokens) == 0 {
 
 			session := sessions.Default(c)
-			session.AddFlash("Invalid Token")
+			session.AddFlash("Oops, we don't recognise that code! Please check you entered it correctly")
 			flash := session.Flashes()
 			session.Save()
 			c.HTML(
@@ -143,7 +143,7 @@ func logIn(c *gin.Context) {
 
 		if validTokens[0].Expiration.Before(time.Now()) {
 			session := sessions.Default(c)
-			session.AddFlash("Expired Token")
+			session.AddFlash("That code has expired! To start a new order, simply proceed without one")
 			flash := session.Flashes()
 			session.Save()
 			c.HTML(
@@ -170,7 +170,7 @@ func logIn(c *gin.Context) {
 
 	} else {
 		session := sessions.Default(c)
-		session.AddFlash("The email or password is incorrect")
+		session.AddFlash("Looks like that email or password is incorrect")
 		flash := session.Flashes()
 		session.Save()
 		c.HTML(

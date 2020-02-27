@@ -2,12 +2,12 @@
 {{ template "header.html" .}}
 
 <h2> Your basket for order {{.token}}</h2>
-
+<br>
 {{range .payload}}
 {{.DishName}} £{{.DishPrice}}<br>
 <br>
 {{end}}
 <br>
-<p>Total:£{{.total}}</p>
-
+<h3>Your Total: £{{.total}}</h3>
+<br>
 This order will be placed at: {{.orderTime}}
