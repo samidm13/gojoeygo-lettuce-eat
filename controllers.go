@@ -300,6 +300,7 @@ func showAdminPage(c *gin.Context) {
 
 func adminBasket(c *gin.Context) {
 	Token := c.PostForm("token")
+	fmt.Println(Token)
 	token, _ := strconv.Atoi(Token)
 
 	menuList := displayMenu(token)
@@ -310,7 +311,7 @@ func adminBasket(c *gin.Context) {
 		gin.H{
 			"title":   "Menu",
 			"payload": menuList,
-			"dishes": number,
+			"dishes":  number,
 		},
 	)
 }

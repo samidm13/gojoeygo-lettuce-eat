@@ -34,7 +34,7 @@ func dishesInBasket(token int, userID int) []dishbasket {
 
 func orderTime(token int) string {
 	var time string
-	sqlStatement := `SELECT order_time FROM orders WHERE token=$1;`
+	sqlStatement := `SELECT TO_CHAR(order_time, 'DD-Mon-YYYY HH24:MI') FROM orders WHERE token=$1;`
 	row := DB.QueryRow(sqlStatement, token)
 	row.Scan(&time)
 	return time
