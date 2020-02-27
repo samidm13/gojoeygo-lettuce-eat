@@ -33,7 +33,7 @@ type token struct {
 }
 
 func getOrders(usID int) []order {
-	sqlStatement := `SELECT token, rest_id, order_time FROM orders WHERE user_id=$1`
+	sqlStatement := `SELECT token, rest_id, TO_CHAR(order_time, 'DD-Mon-YYYY HH24:MI') FROM orders WHERE user_id=$1`
 	rows, err := DB.Query(sqlStatement, usID)
 	if err != nil {
 		panic(err)
