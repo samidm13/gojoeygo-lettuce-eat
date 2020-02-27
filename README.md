@@ -9,49 +9,124 @@ We believe that the key ingredients for our success as a team are sharing ideas 
     The order initiator can "Create Order" that selects the restaurant and generates a unique order token shared with whomever they want to be part of the group order.
 
 ## User stories implemented
-1. As a user
+
+1. As a new user
+
+   So I can set up a food group order 
+
+   I can sign up with an encrypted password and no token
+   
+
+2. As an existing user
+
+   So I can set up a food group order 
+
+   I can log in with an encrypted password and no token
+   
+
+3. As a new user
 
    So I can order food as part of a group
 
-   I can sign up with an encrypted password
+   I can sign up with an encrypted password and a valid not expired token
+   
 
-2. As a user
+4. As an existing user
 
    So I can order food as part of a group
 
-   I can log in with an encrypted password
+   I can log in with an encrypted password and a valid not expired token
+   
+
+5. As a new user
+
+   So I cannot join a non-existent food group order
+
+   I cannot sign up with an invalid or expired token
+   
+   
+6. As an existing user
+
+   So I cannot join a non-existent food group order
+
+   I cannot log in with an invalid or expired token
+   
+
+7. As an existing user
+
+   So I cannot access other users' confidential data 
+
+   I cannot log in with incorrect email or password 
+   
+
+8. As a new user
+
+   So I have a unique account  
+
+   I cannot signup with the same email more than once 
 
 
-3. As a user
+9. As a user
 
    So my data are securely stored
 
    I can log out from my account
+   
+   
+10. As an order initiator
 
+    So I can set up a group order
 
-4. As an order initiator
+    I can "Create Order" that includes the restaurant, delivery address, time expiry and generates a
+   unique order token
+   
 
-   So I can set up a group order
+11. As an order initiator
+ 
+    So I can join a group order
 
-   I can "Create Order" that include the restaurant and generates an unique order token
+    I can "Add dishes" to the order I've just set up
+   
 
-5. As a User
+12. As an order initiator
 
-   So that I can order food as part of a group
+    So I can join a group order
 
-   I can login or signup with the valid order token
+    I can "Add dishes" to the order I've just set up
+   
 
-6. As a user
+13. As an order initiator
 
-   So that I can add my order to the basket
+    So that I can have an overall image of each order
 
-   I can select menu dishes from the restaurant
+    I can view for a specific order that I set up: the users, the dishes ordered per user, the total and the time when the order  will be placed 
+   
+   
+14. As an order initiator
 
+    So that I can have an overall image of each order
+
+    I can view for a specific order that I set up: the users, the dishes ordered per user, the total and the time when the order  will be placed 
+   
+   
+15.  As a user 
+
+     So I can join a group order
+
+     I can "Add dishes" to the order identified with the token I've just signup/logged in
+    
+    
+16.  As a user 
+
+     So I know what I've ordered
+
+     I can view the dishes ordered , the total and the time when the order will be placed 
+    
+   
 ## Technologies Used:
-- Primary programming language: Go
-- Front end languages: HTML, CSS
+- UI - HTML, CSS and JavaScript
+- Backend - Golang & Gin Gonic for web REST framework
 - Text editors: Atom / VS Code
-- Web framework: Gin
 - Testing framework: Go’s inbuilt testing functionality
 - Database: PostgreSQL, PQ, TablePlus, SQL
 - Version control: GitHub
