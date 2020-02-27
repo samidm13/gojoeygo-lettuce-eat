@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>{{.title}}</title>
     <link rel="stylesheet" href="public/master-stylesheet.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   </head>
@@ -30,7 +31,7 @@
 
 
     <br>
-    
+
   <div class="row">
     <div class="column">
       <form action="/adminconf" method="POST" >
@@ -52,12 +53,10 @@
    function myFunction() {
         var copyText = document.getElementById("myInput");
        copyText.select();
-       copyText.setSelectionRange(0, 99999); 
+       copyText.setSelectionRange(0, 99999);
        document.execCommand("copy");
        alert("Copied your code: " + copyText.value);
       }
   </script>
 </body>
 </html>
-
-
