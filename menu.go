@@ -12,7 +12,7 @@ type tokens struct {
 	DishPrice       float64
 	DishDescription string
 	DishID          int
-	DishURL					string
+	DishURL         string
 }
 
 func displayMenu(token int) []tokens {

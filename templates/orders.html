@@ -1,48 +1,8 @@
-
 <!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" href="public/master-stylesheet.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-  <style>
-    body{
-      font-family: Effra, Helvetica, sans-serif;
-    }
-    .navbar.navbar-default {
-      background: #7FBD32;
-      border: 0px;
-      margin-bottom: -20px;
-      text-align: right;
-      color: #496D1D;
-      font-family: Effra, Helvetica, sans-serif;
-    }
-
-    .navbar.order-container {
-      float: right;
-    }
-
-    .navbar input[type=text] {
-      padding: 6px;
-      margin-top: 8px;
-      font-size: 17px;
-      border: none;
-    }
-
-    .navbar .order-container button {
-      float: right;
-      padding: 6px;
-      margin-top: 8px;
-      margin-right: 16px;
-      background: #ddd;
-      font-size: 17px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .navbar .order-container button:hover {
-      background: #ccc;
-    }
-    </style>
   </head>
 <nav class="navbar navbar-default">
   <div class="container">
@@ -53,38 +13,40 @@
       <a style="color:#222021; font-family: Effra, Helvetica, sans-serif " class="navbar-brand" href="/logout">
         Logout
       </a>
-    </div>
-      <div class ="order-container">
-      <div class="place-order">
-        <form action="/menu/adminorder" method="GET">
-          <input class="w3-input w3-border" type="text" name="order" placeholder="Enter unique token">
-          <button type ="submit">Place an Order</button>
-          </form>
-          </div>
-      </div>
-  </div>
 </nav>
-
-
-  {{ template "header.html" .}}
+{{ template "header.html" .}}
 <body>
-  <center><h1> Share your order code with others so they can join your order!<h1></center>
+  <center><h1> You have successfully created a new group order!<h1></center>
+    {{range .payload}}
+    <h4><p> This order will be placed at {{ .Ordertime }} </p><h4>
+
   <br>
-  {{range .payload}}
+
   <center>
-<h3><p>Unique order code:</p><h3>
-<input type="text" value="{{.Token}}" id="myInput" style="text-align:center;" readonly>
-<button onclick="myFunction()">Copy</button>
+<h3><p>Share your order code with others so they can join your order!</p></h3>
+
+<p><input type="text" value="{{.Token}}" id="myInput" style="text-align:center;" readonly><br><br><button style="color:#FFFFFF;" onclick="myFunction()">Copy</button>
 <br>
-<br>
-  <h4><p> This order will be placed at {{ .Ordertime }}</p><h4>
+
+
     <br>
-    <form action="/adminconf" method="POST" >
-    <input name="token" type ="HIDDEN" value="{{.Token}}">
-    <input type="submit" value="View order status">
-    </form>
+    
+  <div class="row">
+    <div class="column">
+      <form action="/adminconf" method="POST" >
+      <input name="token" type="HIDDEN" value="{{.Token}}">
+      <button type="submit" class="w3-input w3-border" style="color:#FFFFFF;">View order status</button>
+      </form>
+    </div>
+
+    <div class="column">
+      <form action="/menu/adminorder" method="POST">
+      <input name="token" type="HIDDEN" value="{{.Token}}">
+      <button type ="submit" class="w3-input w3-border" style="color:#FFFFFF;"> Add dishes this order</button>
+      </form>
+    </div>
+  </div>
     {{end}}
-    </center>
 
   <script>
    function myFunction() {
@@ -97,3 +59,5 @@
   </script>
 </body>
 </html>
+
+
