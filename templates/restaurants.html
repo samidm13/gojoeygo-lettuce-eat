@@ -24,7 +24,7 @@
       </header>
 
       <div class="w3-display-container w3-container">
-        <img src="https://www.w3schools.com/w3images/hamburger.jpg" alt="Jeans" style="width:100%">
+        <img src="https://www.w3schools.com/w3images/hamburger.jpg" alt="Jeans" style="border-radius: 15px; width:100%">
         <div class="w3-display-topleft " style="padding:24px 48px">
           <h1 class="w3-jumbo w3-hide-small">Select your restaurant</h1>
           <h1 class="w3-hide-large w3-hide-medium">Select a restaurant</h1>
@@ -45,18 +45,18 @@
                   <img src="{{.RestURL}}" style="width:100%">
                   <p><h4>{{.RestName}}</h4></p>
                     <b><input type="radio" value="{{.RestID}}" name="RestID">
-                      <span class="checkmark"></span></b></p>
+                      <span style="display: inline-block;"class="checkmark"></span></b></p>
                     </div>
                   </div>
                 {{end}}
       </div>
 
-    <div class="w3-container w3-black w3-padding-32">
+    <div style="background-color: #B0DC7A; border-radius: 15px" class="w3-container w3-padding-32">
         <h1>Delivery address.</h1>
         <p><input class="w3-input w3-border" type="text" name="address" placeholder="Enter delivery address" style="width:100%"></p>
     </div>
     <br>
-    <div class="w3-container w3-black w3-padding-32">
+    <div style="background-color: #B0DC7A; border-radius: 15px"class="w3-container w3-padding-32">
         <h1>Time when no orders will be accepted.</h1>
         <p><input class="w3-input" type="datetime-local" id="appt" name="appt"
            min="2020-02-20T12:01" max="2020-03-20T01:01" required></p>
